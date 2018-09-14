@@ -63,3 +63,15 @@ bis_scores <- read.table(file.choose(), header = T, sep = "\t")
 
 # Run correlation test between discounting rate and BIS score
 cor.test(fit_hyp$allIndPars$k, bis_scores$x)
+
+# Variational bayes!
+# Let's compare MCMC estimates and VB estimates
+fit_hyp_vb <- dd_hyperbolic("example", niter = 2000, nwarmup = 1000, 
+                         nchain = 2, ncore = 2, vb=TRUE)
+
+# plot posterior means 
+plot(fit_hyp$allIndPars$k, 
+     fit_hyp_vb$allIndPars$k,
+     xlab = "MCMC", ylab="VB")
+# plot y=x line
+abline(0,1)
